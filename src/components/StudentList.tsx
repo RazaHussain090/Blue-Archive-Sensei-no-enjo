@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { students, Student } from '../data/students';
+import { students } from '../data/students';
 import './StudentList.css';
 
 export const StudentList: React.FC = () => {
