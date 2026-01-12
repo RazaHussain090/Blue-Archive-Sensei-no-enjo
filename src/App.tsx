@@ -1,4 +1,5 @@
 import './App.css'
+import { StudentList } from './components/StudentList'
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       </header>
       <main>
         <p>Welcome to the fan tool. Select a module to begin.</p>
-        {/* Future components will go here */}
+        <StudentList />
       </main>
     </div>
   )
