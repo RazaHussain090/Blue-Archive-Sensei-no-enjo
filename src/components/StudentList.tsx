@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { fetchStudents, SCHALE_IMAGE_URL } from '../data/students';
 import type { Student } from '../data/students';
+import { CharacterDetails } from './CharacterDetails';
 import './StudentList.css';
 
 export const StudentList: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -27,7 +29,7 @@ export const StudentList: React.FC = () => {
   }
 
   return (
-    <div className="student-list-container">
+    <div className={`student-list-container ${selectedStudent ? 'has-sidebar' : ''}`}>
       <div className="controls">
         <input
           type="text"
@@ -40,10 +42,14 @@ export const StudentList: React.FC = () => {
       </div>
       <div className="grid">
         {filteredStudents.map((student) => (
-          <div key={student.Id} className="student-card">
-            <img 
-              src={`${SCHALE_IMAGE_URL}/${student.Id}.webp`} 
-              alt={student.Name} 
+          <div
+            key={student.Id}
+            className={`student-card ${selectedStudent?.Id === student.Id ? 'selected' : ''}`}
+            onClick={() => setSelectedStudent(selectedStudent?.Id === student.Id ? null : student)}
+          >
+            <img
+              src={`${SCHALE_IMAGE_URL.icon}/${student.Id}.webp`}
+              alt={student.Name}
               className="student-avatar"
               loading="lazy"
               onError={(e) => {
@@ -62,6 +68,12 @@ export const StudentList: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {/* Character Details Sidebar */}
+      <CharacterDetails
+        student={selectedStudent}
+        onClose={() => setSelectedStudent(null)}
+      />
     </div>
   );
 };
