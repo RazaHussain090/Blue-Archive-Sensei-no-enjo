@@ -4,6 +4,14 @@
 
 .controls {
   margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.count {
+  color: #888;
 }
 
 .search-input {
@@ -19,20 +27,22 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller cards */
+  gap: 15px;
 }
 
 .student-card {
   background: #333;
   border-radius: 8px;
-  padding: 15px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   transition: transform 0.2s;
   border: 1px solid #444;
+  position: relative;
+  overflow: hidden;
 }
 
 .student-card:hover {
@@ -41,47 +51,48 @@
 }
 
 .student-avatar {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-bottom: 10px;
   object-fit: cover;
-  background-color: #555;
+  background-color: #444; /* Placeholder color */
 }
 
 .student-info h3 {
   margin: 0 0 5px 0;
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 .school {
   color: #aaa;
   margin: 0 0 10px 0;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .tags {
   display: flex;
-  gap: 5px;
+  gap: 4px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .tag {
-  font-size: 0.8em;
-  padding: 4px 8px;
-  border-radius: 12px;
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 8px;
   background: #555;
+  color: white;
 }
 
 /* Attack Types */
-.tag.explosive { background-color: #8B0000; }
-.tag.piercing { background-color: #B8860B; }
+.tag.explosion { background-color: #8B0000; }
+.tag.pierce { background-color: #B8860B; }
 .tag.mystic { background-color: #00008B; }
 .tag.sonic { background-color: #4B0082; }
 
 /* Armor Types */
-.tag.light { border: 1px solid #8B0000; background: transparent; }
-.tag.heavy { border: 1px solid #B8860B; background: transparent; }
-.tag.special { border: 1px solid #00008B; background: transparent; }
-.tag.elastic { border: 1px solid #4B0082; background: transparent; }
+.tag.lightarmor { border: 1px solid #8B0000; background: rgba(139, 0, 0, 0.2); }
+.tag.heavyarmor { border: 1px solid #B8860B; background: rgba(184, 134, 11, 0.2); }
+.tag.specialarmor { border: 1px solid #00008B; background: rgba(0, 0, 139, 0.2); }
+.tag.elasticarmor { border: 1px solid #4B0082; background: rgba(75, 0, 130, 0.2); }

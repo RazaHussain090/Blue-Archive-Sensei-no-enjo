@@ -1,57 +1,30 @@
 export interface Student {
-  id: string;
-  name: string;
-  school: string;
-  role: 'Striker' | 'Special';
-  attackType: 'Explosive' | 'Piercing' | 'Mystic' | 'Sonic';
-  armorType: 'Light' | 'Heavy' | 'Special' | 'Elastic';
-  avatarUrl: string; // Placeholder for now
+  Id: number;
+  Name: string;
+  School: string;
+  SquadType: 'Main' | 'Support';
+  TacticRole: string; // DamageDealer, Tank, etc.
+  BulletType: 'Explosion' | 'Pierce' | 'Mystic' | 'Sonic' | 'Normal';
+  ArmorType: 'LightArmor' | 'HeavyArmor' | 'SpecialArmor' | 'ElasticArmor';
+  PathName: string;
+  Icon?: string;
+  StarGrade: number;
+  IsReleased: boolean[]; // [Jp, Global, Cn]
 }
 
-export const students: Student[] = [
-  {
-    id: '1',
-    name: 'Shiroko',
-    school: 'Abydos',
-    role: 'Striker',
-    attackType: 'Explosive',
-    armorType: 'Light',
-    avatarUrl: 'https://placehold.co/100x100?text=Shiroko',
-  },
-  {
-    id: '2',
-    name: 'Hoshino',
-    school: 'Abydos',
-    role: 'Striker',
-    attackType: 'Piercing',
-    armorType: 'Heavy',
-    avatarUrl: 'https://placehold.co/100x100?text=Hoshino',
-  },
-  {
-    id: '3',
-    name: 'Aru',
-    school: 'Gehenna',
-    role: 'Striker',
-    attackType: 'Explosive',
-    armorType: 'Light',
-    avatarUrl: 'https://placehold.co/100x100?text=Aru',
-  },
-   {
-    id: '4',
-    name: 'Hina',
-    school: 'Gehenna',
-    role: 'Striker',
-    attackType: 'Explosive',
-    armorType: 'Heavy',
-    avatarUrl: 'https://placehold.co/100x100?text=Hina',
-  },
-  {
-    id: '5',
-    name: 'Mika',
-    school: 'Trinity',
-    role: 'Striker',
-    attackType: 'Piercing',
-    armorType: 'Heavy',
-    avatarUrl: 'https://placehold.co/100x100?text=Mika',
-  },
-];
+export const SCHALE_IMAGE_URL = 'https://schaledb.com/images/student/icon';
+
+export async function fetchStudents(): Promise<Student[]> {
+  try {
+    const response = await fetch('/data/students.json');
+    if (!response.ok) {
+      throw new Error('Failed to load student data');
+    }
+    const data: Record<string, Student> = await response.json();
+    return Object.values(data).filter(s => s.IsReleased[1]); // Only global released students? Or all? Let's show all for now, maybe filter later.
+    // Actually, usually IsReleased[1] is Global.
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
