@@ -1,5 +1,10 @@
 .student-list-container {
   padding: 20px;
+  transition: margin-right 0.3s ease;
+}
+
+.student-list-container.has-sidebar {
+  margin-right: 420px; /* Account for sidebar width + some padding */
 }
 
 .controls {
@@ -48,6 +53,12 @@
 .student-card:hover {
   transform: translateY(-5px);
   border-color: #646cff;
+}
+
+.student-card.selected {
+  border-color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  transform: scale(1.02);
 }
 
 .student-avatar {
