@@ -10,9 +10,25 @@
 .controls {
   margin-bottom: 20px;
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-section {
+  display: flex;
   gap: 20px;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filters-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .count {
@@ -28,6 +44,36 @@
   border: 1px solid #ccc;
   background-color: #333;
   color: white;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #333;
+  color: white;
+  min-width: 120px;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+.clear-filters-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #555;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background-color: #666;
 }
 
 .grid {
