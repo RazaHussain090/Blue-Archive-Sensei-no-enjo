@@ -1,0 +1,238 @@
+.team-stats-calculator {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.team-stats-calculator.collapsed {
+  padding: 12px;
+}
+
+.team-stats-calculator.expanded {
+  padding: 20px;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.stats-header:hover {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.team-stats-calculator h3 {
+  color: #ffd700;
+  margin: 0;
+  font-size: 1.2em;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.collapse-toggle {
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.collapse-toggle:hover {
+  background: rgba(255, 215, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.team-stats-calculator h4 {
+  color: #ffd700;
+  margin: 20px 0 15px 0;
+  font-size: 1.1em;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.stats-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Core Statistics */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.stat-item {
+  background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  color: #ccc;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.stat-value {
+  color: #ffd700;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.stat-subtext {
+  font-size: 0.8em;
+  color: #4CAF50;
+}
+
+.stat-note {
+  margin-top: 10px;
+  font-size: 0.8em;
+  color: #888;
+  font-style: italic;
+}
+
+/* Terrain Moods */
+.student-moods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.mood-item {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mini-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ffd700;
+}
+
+.mood-rank {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.rank-SS { color: #d500f9; text-shadow: 0 0 5px #d500f9; }
+.rank-S { color: #4CAF50; text-shadow: 0 0 5px #4CAF50; }
+.rank-A { color: #8BC34A; }
+.rank-B { color: #FFC107; }
+.rank-C { color: #FF9800; }
+.rank-D { color: #F44336; }
+
+.mood-icon {
+  font-size: 1.2em;
+}
+
+
+/* Synergy */
+.synergy-desc {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  color: #eee;
+}
+
+.synergy-recs {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.synergy-recs li {
+  color: #ccc;
+  margin-bottom: 5px;
+}
+
+
+/* Flex Layout for smaller sections */
+.stats-flex-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.stats-mini-section {
+  flex: 1;
+  min-width: 250px;
+  background: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.stats-mini-section h5 {
+  margin: 0 0 10px 0;
+  color: #ffd700;
+}
+
+.type-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+.stat-badge.explosion, .stat-badge.light { background: #8B0000; }
+.stat-badge.pierce, .stat-badge.heavy { background: #B8860B; }
+.stat-badge.mystic, .stat-badge.special { background: #00008B; }
+.stat-badge.sonic, .stat-badge.elastic { background: #4B0082; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .team-stats-calculator {
+    padding: 12px;
+  }
+
+  .stats-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .stats-flex-row {
+    flex-direction: column;
+  }
+}
