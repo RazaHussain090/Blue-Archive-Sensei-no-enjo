@@ -93,6 +93,46 @@ Student data is fetched from SchaleDB and cached locally. The data includes:
 - Character artwork and portraits
 - Equipment and weapon data
 
+## 🌿 Development Workflow
+
+We follow a **Git Flow** branching strategy to maintain a clean and organized codebase:
+
+### Branch Structure
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production-ready code. Always stable and deployable. |
+| `develop` | Integration branch for features. Contains the latest development changes. |
+| `feature/*` | New features (e.g., `feature/team-builder-ui`, `feature/student-search`) |
+| `bugfix/*` | Bug fixes (e.g., `bugfix/stats-calculation`) |
+| `hotfix/*` | Critical production fixes (e.g., `hotfix/login-crash`) |
+| `release/*` | Release preparation (e.g., `release/v1.2.0`) |
+
+### Workflow
+
+```mermaid
+graph LR
+    A[main] --> B[develop]
+    B --> C[feature/*]
+    B --> D[bugfix/*]
+    A --> E[hotfix/*]
+    B --> F[release/*]
+    F --> A
+    E --> A
+```
+
+**Development Flow:**
+1. Create feature branches from `develop`
+2. Merge features back to `develop` when complete
+3. Create release branches from `develop` for production releases
+4. Merge releases to both `develop` and `main`
+
+**Best Practices:**
+- Never commit directly to `main`
+- Keep feature branches short-lived
+- Use descriptive branch names
+- Delete branches after merging
+
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.

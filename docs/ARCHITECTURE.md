@@ -58,14 +58,115 @@ src/
 *   **Large Lists**: The student list contains 200+ items. If performance drops, implement **Virtualization** (e.g., `react-window`) to only render visible items.
 *   **Code Splitting**: Future complex routes (like "Team Builder") should be lazy-loaded using `React.lazy`.
 
-## 6. Git Workflow
+## 6. Git Workflow & Branching Strategy
 
-*   **Branches**: Create a new branch for every feature or fix (e.g., `feature/team-builder`, `fix/search-bug`).
-*   **Commits**: Use Conventional Commits style:
-    *   `feat: ...` for new features
-    *   `fix: ...` for bug fixes
-    *   `docs: ...` for documentation
-    *   `chore: ...` for maintenance (scripts, config)
+We follow **Git Flow** to maintain a clean, organized development process with clear separation between production code, development work, and features.
+
+### Branch Structure
+
+| Branch Type | Naming Convention | Purpose | Source | Target |
+|-------------|-------------------|---------|---------|---------|
+| **Main** | `main` | Production-ready code | - | - |
+| **Develop** | `develop` | Integration branch for features | `main` | `main` (via release) |
+| **Feature** | `feature/feature-name` | New features | `develop` | `develop` |
+| **Bugfix** | `bugfix/issue-description` | Bug fixes | `develop` | `develop` |
+| **Hotfix** | `hotfix/critical-issue` | Critical production fixes | `main` | `main` & `develop` |
+| **Release** | `release/v1.0.0` | Release preparation | `develop` | `main` & `develop` |
+
+### Development Workflow
+
+#### For Feature Development:
+```bash
+# 1. Start from develop
+git checkout develop
+git pull origin develop
+
+# 2. Create feature branch
+git checkout -b feature/add-student-filtering
+
+# 3. Work on feature (commit regularly)
+git add .
+git commit -m "feat: add basic filtering functionality"
+
+# 4. Keep updated with develop
+git pull origin develop
+
+# 5. Merge back to develop when complete
+git checkout develop
+git pull origin develop
+git merge feature/add-student-filtering
+git push origin develop
+
+# 6. Delete feature branch
+git branch -d feature/add-student-filtering
+```
+
+#### For Hotfixes:
+```bash
+# 1. Create hotfix from main
+git checkout main
+git pull origin main
+git checkout -b hotfix/critical-bug
+
+# 2. Fix the issue
+git commit -m "fix: resolve critical login issue"
+
+# 3. Merge to main and develop
+git checkout main
+git merge hotfix/critical-bug
+git push origin main
+
+git checkout develop
+git merge hotfix/critical-bug
+git push origin develop
+
+# 4. Delete hotfix branch
+git branch -d hotfix/critical-bug
+```
+
+### Commit Convention
+
+We use **Conventional Commits** for consistent, meaningful commit messages:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**Types:**
+- `feat:` - A new feature
+- `fix:` - A bug fix
+- `docs:` - Documentation only changes
+- `style:` - Changes that do not affect the meaning of the code
+- `refactor:` - A code change that neither fixes a bug nor adds a feature
+- `perf:` - A code change that improves performance
+- `test:` - Adding missing tests or correcting existing tests
+- `chore:` - Changes to the build process or auxiliary tools
+
+**Examples:**
+- `feat(students): add filtering by attack type`
+- `fix(team-builder): resolve stats calculation error`
+- `docs(readme): update installation instructions`
+- `chore(deps): update react to v18.2.0`
+
+### Branch Naming Guidelines
+
+- Use lowercase with hyphens: `feature/add-search-filter`
+- Be descriptive but concise: `bugfix/login-validation` not `bugfix/fix`
+- Use prefixes consistently: `feature/`, `bugfix/`, `hotfix/`
+- Include issue numbers when applicable: `feature/PROJ-123-add-export`
+
+### Best Practices
+
+- **Never commit directly to `main`**
+- **Keep branches short-lived** - merge features within 1-2 weeks
+- **Regular rebasing** - keep feature branches updated with develop
+- **Clean merges** - use fast-forward merges when possible
+- **Delete merged branches** - keep repository clean
+- **Code reviews required** - all merges to develop/main need approval
 
 ## 7. Scripts
 
