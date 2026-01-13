@@ -100,19 +100,111 @@ features/
       useTeamLogic.ts
 ```
 
-## 6. Git & Commits
+## 6. Git Workflow & Branching
 
-*   **Commit Messages**: Follow [Conventional Commits](https://www.conventionalcommits.org/).
-    *   `feat`: A new feature
-    *   `fix`: A bug fix
-    *   `docs`: Documentation only changes
-    *   `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc)
-    *   `refactor`: A code change that neither fixes a bug nor adds a feature
-    *   `perf`: A code change that improves performance
-    *   `test`: Adding missing tests or correcting existing tests
-    *   `chore`: Changes to the build process or auxiliary tools and libraries such as documentation generation
+### Branch Naming Conventions
 
-**Example**: `feat(students): add filtering by attack type`
+Always use descriptive, lowercase names with hyphens. Follow these patterns:
+
+| Branch Type | Pattern | Examples |
+|-------------|---------|----------|
+| Feature | `feature/description` | `feature/add-student-search`, `feature/team-builder-ui` |
+| Bugfix | `bugfix/description` | `bugfix/stats-calculation`, `bugfix/mobile-layout` |
+| Hotfix | `hotfix/description` | `hotfix/critical-login`, `hotfix/data-corruption` |
+| Release | `release/v1.0.0` | `release/v1.2.0`, `release/v2.0.0-beta` |
+
+**Guidelines:**
+- Be specific: `feature/add-export-function` not `feature/new-feature`
+- Use issue numbers: `bugfix/PROJ-123-fix-crash` when applicable
+- Keep names concise but descriptive
+
+### Commit Messages
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**Types:**
+- `feat:` - A new feature
+- `fix:` - A bug fix
+- `docs:` - Documentation only changes
+- `style:` - Changes that do not affect the meaning of the code
+- `refactor:` - A code change that neither fixes a bug nor adds a feature
+- `perf:` - A code change that improves performance
+- `test:` - Adding missing tests or correcting existing tests
+- `chore:` - Changes to the build process or auxiliary tools
+
+**Examples:**
+```
+feat(students): add filtering by attack type
+fix(team-builder): resolve stats calculation error
+docs(readme): update installation instructions
+chore(deps): update react to v18.2.0
+refactor(StudentList): extract filtering logic to custom hook
+```
+
+**Rules:**
+- Use present tense: "add feature" not "added feature"
+- Capitalize first word of description
+- Keep subject line under 50 characters
+- Use scope for component/feature context: `feat(StudentList): ...`
+
+### Pull Request Guidelines
+
+**Before submitting:**
+1. **Rebase** your branch on the latest target branch
+2. **Squash** trivial commits (typos, formatting)
+3. **Test thoroughly** - ensure all tests pass
+4. **Update documentation** if needed
+
+**PR Template:**
+- **Title**: Use conventional commit format
+- **Description**: Explain what and why, not how
+- **Screenshots/GIFs**: For UI changes
+- **Testing**: How to verify the changes
+
+**Review Process:**
+- At least one approval required for merges to `develop`
+- Two approvals required for merges to `main`
+- Address all review comments before merging
+
+### Workflow Commands
+
+**Starting work:**
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b feature/your-feature-name
+```
+
+**During development:**
+```bash
+git add .
+git commit -m "feat: implement core functionality"
+git push origin feature/your-feature-name
+```
+
+**Staying updated:**
+```bash
+git checkout develop
+git pull origin develop
+git checkout feature/your-feature-name
+git rebase develop
+```
+
+**Merging back:**
+```bash
+git checkout develop
+git merge feature/your-feature-name --no-ff
+git push origin develop
+git branch -d feature/your-feature-name
+```
 
 ## 7. Performance Checklist
 
