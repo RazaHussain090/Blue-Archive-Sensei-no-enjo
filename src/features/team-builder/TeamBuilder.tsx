@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { fetchStudents, SCHALE_IMAGE_URL } from '../../data/students';
 import type { Student } from '../../data/students';
+import { TeamStatsCalculator } from './TeamStatsCalculator';
 import './TeamBuilder.css';
 
 interface TeamSlot {
   id: number;
   student: Student | null;
   squadType: 'main' | 'support';
-  tacticalRole?: 'striker' | 'special' | 'supporter';
 }
 
 interface TeamBuilderProps {
@@ -19,13 +19,14 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({ onClose }) => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [team, setTeam] = useState<TeamSlot[]>([
-    { id: 1, student: null, squadType: 'main', tacticalRole: 'striker' },
-    { id: 2, student: null, squadType: 'main', tacticalRole: 'striker' },
-    { id: 3, student: null, squadType: 'main', tacticalRole: 'striker' },
-    { id: 4, student: null, squadType: 'main', tacticalRole: 'striker' },
-    { id: 5, student: null, squadType: 'support', tacticalRole: 'supporter' },
-    { id: 6, student: null, squadType: 'support', tacticalRole: 'supporter' },
+    { id: 1, student: null, squadType: 'main' },
+    { id: 2, student: null, squadType: 'main' },
+    { id: 3, student: null, squadType: 'main' },
+    { id: 4, student: null, squadType: 'main' },
+    { id: 5, student: null, squadType: 'support' },
+    { id: 6, student: null, squadType: 'support' },
   ]);
+  const [selectedTerrain, setSelectedTerrain] = useState<'Street' | 'Outdoor' | 'Indoor'>('Street');
 
   React.useEffect(() => {
     const loadData = async () => {
@@ -69,26 +70,34 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({ onClose }) => {
     );
   };
 
-  const getPositionIcon = (squadType: string, tacticalRole?: string) => {
-    if (squadType === 'main') {
-      switch (tacticalRole) {
-        case 'striker': return '⚔️';
-        case 'special': return '🎯';
+  const getPositionIcon = (slot: TeamSlot) => {
+    if (slot.student) {
+      // Use the student's actual Position from the data
+      const position = slot.student.Position;
+      switch (position) {
+        case 'Front': return '⚔️';
+        case 'Middle': return '🎯';
+        case 'Back': return '🏹';
         default: return '⚔️';
       }
-    } else if (squadType === 'support') {
-      return '🛡️';
+    } else {
+      // Empty slot - show squad type icon
+      return slot.squadType === 'main' ? '⚔️' : '🛡️';
     }
-    return '❓';
   };
 
-  const getPositionLabel = (squadType: string, tacticalRole?: string) => {
-    if (squadType === 'main') {
-      return tacticalRole || 'Main';
-    } else if (squadType === 'support') {
-      return 'Support';
+  const getPositionLabel = (slot: TeamSlot) => {
+    if (slot.student) {
+      // Use the student's actual Position from the data
+      const position = slot.student.Position;
+      if (slot.squadType === 'support') {
+        return 'Support';
+      }
+      return position || 'Main';
+    } else {
+      // Empty slot - show squad type
+      return slot.squadType === 'main' ? 'Main' : 'Support';
     }
-    return 'Unknown';
   };
 
   const getAttackTypeCounts = () => {
@@ -139,8 +148,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({ onClose }) => {
             {team.map((slot) => (
               <div key={slot.id} className={`team-slot ${slot.squadType}`}>
                 <div className="slot-header">
-                  <span className="position-icon">{getPositionIcon(slot.squadType, slot.tacticalRole)}</span>
-                  <span className="position-label">{getPositionLabel(slot.squadType, slot.tacticalRole)}</span>
+                  <span className="position-icon">{getPositionIcon(slot)}</span>
+                  <span className="position-label">{getPositionLabel(slot)}</span>
                 </div>
                 <div className="slot-content">
                   {slot.student ? (
@@ -188,16 +197,16 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({ onClose }) => {
             <div className="stats-grid">
               <div className="stat-item">
                 <span className="stat-label">Team Size:</span>
-                <span className="stat-value">{team.filter(s => s.student).length}/6 (4 Main + 2 Support)</span>
+                <span className="stat-value">{team.filter(s => s.student).length}/6 (4 Striker + 2 Special)</span>
               </div>
               <div className="stat-item">
                 <span className="stat-label">Squad Types:</span>
                 <div className="stat-badges">
                   <span className="stat-badge main-squad">
-                    Main ({team.filter(s => s.student && s.squadType === 'main').length})
+                    Striker ({team.filter(s => s.student && s.squadType === 'main').length})
                   </span>
                   <span className="stat-badge support-squad">
-                    Support ({team.filter(s => s.student && s.squadType === 'support').length})
+                    Special ({team.filter(s => s.student && s.squadType === 'support').length})
                   </span>
                 </div>
               </div>
@@ -233,6 +242,31 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({ onClose }) => {
               </div>
             </div>
           </div>
+
+          {/* Team Statistics Calculator */}
+          <div className="terrain-selector" style={{ marginBottom: '1rem' }}>
+            <h4>Battle Environment</h4>
+            <div className="terrain-buttons" style={{ display: 'flex', gap: '10px' }}>
+              {(['Street', 'Outdoor', 'Indoor'] as const).map(terrain => (
+                <button
+                  key={terrain}
+                  className={`terrain-btn ${selectedTerrain === terrain ? 'active' : ''}`}
+                  onClick={() => setSelectedTerrain(terrain)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    border: '1px solid #ccc',
+                    background: selectedTerrain === terrain ? '#4CAF50' : 'white',
+                    color: selectedTerrain === terrain ? 'white' : 'black',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {terrain}
+                </button>
+              ))}
+            </div>
+          </div>
+          <TeamStatsCalculator team={team} terrain={selectedTerrain} />
         </div>
 
         {/* Student Selection Section */}
