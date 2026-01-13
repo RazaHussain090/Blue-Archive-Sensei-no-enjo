@@ -2,3 +2,36 @@
 .app-container {
   padding: 20px;
 }
+
+.view-toggle {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.nav-btn {
+  background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
+  border: 2px solid #444;
+  color: #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.nav-btn:hover {
+  border-color: #ffd700;
+  color: #ffd700;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.nav-btn.active {
+  border-color: #ffd700;
+  color: #ffd700;
+  background: linear-gradient(145deg, #ffd700, #ffed4e);
+  color: #1a1a2e;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
