@@ -12,6 +12,7 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ student, onC
   const [studentLevel, setStudentLevel] = useState(1);
   const [weaponLevel, setWeaponLevel] = useState(1);
   const [skillLevel, setSkillLevel] = useState(1);
+  const [bondLevel, setBondLevel] = useState(1);
 
   const [expandedSections, setExpandedSections] = useState({
     basicInfo: true,
@@ -78,6 +79,13 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ student, onC
 
     const ratio = (level - 1) / 99;
     return Math.round(level1Value + (level100Value - level1Value) * ratio);
+  };
+
+  const calculateBondBonus = (baseStat: number, bondLevel: number) => {
+    // Bond levels provide percentage bonuses to HP, ATK, and Heal
+    // Each bond level gives approximately 0.5% bonus (this is an approximation)
+    const bondMultiplier = 1 + (bondLevel - 1) * 0.005; // 0.5% per level
+    return Math.round(baseStat * bondMultiplier);
   };
 
   return (
@@ -181,16 +189,38 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ student, onC
               </div>
             </div>
 
+            <div className="bond-level-control">
+              <label htmlFor="bond-level-slider" className="level-label">
+                Bond Level: {bondLevel}
+              </label>
+              <input
+                id="bond-level-slider"
+                type="range"
+                min="1"
+                max="50"
+                value={bondLevel}
+                onChange={(e) => setBondLevel(Number(e.target.value))}
+                className="level-slider"
+              />
+              <div className="level-marks">
+                <span>1</span>
+                <span>25</span>
+                <span>50</span>
+              </div>
+            </div>
+
             <div className="current-stats">
-              <h4>Student Level {studentLevel} Stats</h4>
+              <h4>Student Level {studentLevel} Stats (Bond Level {bondLevel})</h4>
               <div className="stat-grid">
                 <div className="stat-item">
                   <span className="stat-label">HP:</span>
-                  <span className="stat-value">{formatStatValue(calculateStat(student.MaxHP1, student.MaxHP100, studentLevel))}</span>
+                  <span className="stat-value">{formatStatValue(calculateBondBonus(calculateStat(student.MaxHP1, student.MaxHP100, studentLevel), bondLevel))}</span>
+                  <small className="stat-subtext">(Base: {formatStatValue(calculateStat(student.MaxHP1, student.MaxHP100, studentLevel))})</small>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">ATK:</span>
-                  <span className="stat-value">{formatStatValue(calculateStat(student.AttackPower1, student.AttackPower100, studentLevel))}</span>
+                  <span className="stat-value">{formatStatValue(calculateBondBonus(calculateStat(student.AttackPower1, student.AttackPower100, studentLevel), bondLevel))}</span>
+                  <small className="stat-subtext">(Base: {formatStatValue(calculateStat(student.AttackPower1, student.AttackPower100, studentLevel))})</small>
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">DEF:</span>
@@ -198,7 +228,8 @@ export const CharacterDetails: React.FC<CharacterDetailsProps> = ({ student, onC
                 </div>
                 <div className="stat-item">
                   <span className="stat-label">HEAL:</span>
-                  <span className="stat-value">{formatStatValue(calculateStat(student.HealPower1, student.HealPower100, studentLevel))}</span>
+                  <span className="stat-value">{formatStatValue(calculateBondBonus(calculateStat(student.HealPower1, student.HealPower100, studentLevel), bondLevel))}</span>
+                  <small className="stat-subtext">(Base: {formatStatValue(calculateStat(student.HealPower1, student.HealPower100, studentLevel))})</small>
                 </div>
               </div>
             </div>
